@@ -5,4 +5,4 @@ if b<=10000:
 elif  b<=20000 and b>=10000:
     print(b+0.25*b+0.9*b)
 else:
-    print(b+0,3*b+0.95*b)
+    print(b+0.3*b+0.95*b)
