@@ -1,0 +1,89 @@
+n1=12
+n2=8
+n3=5
+x=n1
+y=0
+z=0
+t=6
+d=0
+state=[[x,y,z]]
+while(d!=t):
+    if(x+y+z==t):
+        x=t
+        d=t
+        z=z-t
+        y=y-t
+        state.append([x,0,0])
+        break;
+    if(x+y==t):
+        x=t
+        d=t
+        y=y-t
+        state.append([x,0,z])
+        break
+    
+    if(y==0 and x==0):
+        y=n2
+        state.append([x,y,z])
+        continue
+       
+    if(y==0):
+        temp=n2-y
+        if(x<=temp):
+            y=y+x
+            x=0
+        else:
+            y=n2
+            x=x-temp
+        d=x
+        state.append([x,y,z])
+     
+    
+    elif(z!=n3 and y!=0):
+        temp=n3-z
+        if(y<=temp):
+            z=z+y
+            y=0
+        else:
+            z=n3
+            y=y-temp
+        d=x
+        state.append([x,y,z])
+       
+    elif(z==n3):
+        z=0
+        state.append([x,y,z])
+if(y!=0):     
+    y=0
+    state.append([x,y,z])
+if(z!=0):     
+    z=0
+    state.append([x,y,z])
+d=0
+n=n2
+m=n3    
+while(d!=t):
+    if(y==0):
+        y=n
+        d=y
+        state.append([x,y,z])
+        if(d==t):
+            break 
+    elif(z==m):
+        z=0
+        state.append([x,y,z])
+        if(d==t):
+            break
+    else:
+        temp=m-z
+        if(y<=temp):
+            z=z+y
+            y=0
+        else:
+            z=m
+            y=y-temp
+        d=y
+        state.append([x,y,z])
+        if(d==t):
+            break
+print(state)

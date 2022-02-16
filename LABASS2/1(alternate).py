@@ -1,0 +1,32 @@
+n=4
+m=3
+t=2
+d=0
+x=0
+y=0
+state=[[0,0]]
+while(d!=t):
+    if(x==0):
+        x=n
+        d=x
+        state.append([x,y])
+        if(d==t):
+            break 
+    elif(y==m):
+        y=0
+        state.append([x,y])
+        if(d==t):
+            break
+    else:
+        temp=m-y
+        if(x<=temp):
+            y=y+x
+            x=0
+        else:
+            y=m
+            x=x-temp
+        d=x
+        state.append([x,y])
+        if(d==t):
+            break
+print(state)
