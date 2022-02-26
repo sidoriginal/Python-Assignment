@@ -51,6 +51,7 @@ fin='281043765'
 q=[init]
 d={}
 count=0
+
 while (len(q)>0):
     cl=q[0]
     if(cl==fin):
