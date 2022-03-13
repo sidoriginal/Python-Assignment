@@ -1,5 +1,25 @@
 from queue import PriorityQueue
 import queue
+def mhd(g,i):
+    if(g==0 or g==1 or g==2):
+        xg=g
+        yg=0
+    if(g==3 or g==4 or g==5):
+        xg=g-3
+        yg=1
+    if(g==6 or g==7 or g==8):
+        xg=g-6
+        yg=2
+    if(i==0 or i==1 or i==2):
+        xi=i
+        yi=0
+    if(i==3 or i==4 or i==5):
+        xi=i-3
+        yi=1
+    if(i==6 or i==7 or i==8):
+        xi=i-6
+        yi=2
+    return abs(xi-xg)+abs(yi-yg)
 
 def right(init,goal,pos):
     temp=init[pos]
@@ -7,8 +27,11 @@ def right(init,goal,pos):
     init[pos+1]=temp
     cost=0
     for i in range(9):
-        if(init[i]!=goal[i]):
-            cost=cost+1
+        if(i==0):
+            continue
+        g=goal.index(i)
+        i=init.index(i)
+        cost=cost+mhd(g,i)
     return init,cost
 
 
@@ -18,8 +41,11 @@ def left(init,goal,pos):
     init[pos-1]=temp
     cost=0
     for i in range(9):
-        if(init[i]!=goal[i]):
-            cost=cost+1
+        if(i==0):
+            continue
+        g=goal.index(i)
+        i=init.index(i)
+        cost=cost+mhd(g,i)
     return init,cost
 
 
@@ -29,8 +55,11 @@ def up(init,goal,pos):
     init[pos-3]=temp
     cost=0
     for i in range(9):
-        if(init[i]!=goal[i]):
-            cost=cost+1
+        if(i==0):
+            continue
+        g=goal.index(i)
+        i=init.index(i)
+        cost=cost+mhd(g,i)
     return init,cost
 
 
@@ -40,20 +69,22 @@ def down(init,goal,pos):
     init[pos+3]=temp
     cost=0
     for i in range(9):
-        if(init[i]!=goal[i]):
-            cost=cost+1
+        if(i==0):
+            continue
+        g=goal.index(i)
+        i=init.index(i)
+        cost=cost+mhd(g,i)
     return init,cost
     
 
 
+open=PriorityQueue()
+close=[[]]
 init=[2,8,3,1,5,4,7,6,0]
 goal=[1,2,3,8,0,4,7,6,5]
+close.append(init)
+open.put((100,init))
 c=0
-min=0
-# for i in range(9):
-    # if(init[i]!=goal[i]):
-    #     min=min+1
-min=100
 print("Step",end=":")
 print(c)
 for i in range(9):
@@ -64,62 +95,54 @@ for i in range(9):
         print()
 print("---------------------------")
 c=1
-while(init!=goal):
+while(init!=goal  or open.empty==True):
     print("Step",end=":")
     print(c)
-    temp=[]
     # print(init)
     # print("init")
     u,d,r,l=[],[],[],[]
     pos=init.index(0)
     if(pos!=2 and pos!=5 and pos!=8):
         r,rv=right(init.copy(),goal,pos)
-        # print(rv)
-        if(rv<=min):
-            min=rv
-            temp=r
-        # print(min)
         # print(r)
         # print("right")
     if(pos!=0 and pos!=3and pos!=6):
         l,lv=left(init.copy(),goal,pos)
-        # print(lv)
-        if(lv<=min):
-            min=lv
-            temp=l
-        # print(min)
         # print(l)
         # print("left")
     if(pos!=0 and pos!=1 and pos!=2):
         u,uv=up(init.copy(),goal,pos)
-        # print(uv)
-        if(uv<=min):
-            min=uv
-            temp=u
-        # print(min)
         # print(u)
         # print("up")
     if(pos!=6 and pos!=7 and pos!=8):
         d,dv=down(init.copy(),goal,pos)
-        # print(dv)
-        if(dv<=min):
-            min=dv
-            temp=d
-        # print(min)
         # print(d)
         # print("down")
+    if r not in close:
+        open.put((10-rv,r))
+    if l not in close:
+        open.put((10-lv,l))
+    if u not in close:
+        open.put((10-uv,u))
+    if d not in close:
+        open.put((10-dv,d))
+    temp=open.get()[1]
+    # print(list(temp))
+    # print("temp")
+    close.append(list(temp))
+    # print(close)
+    # print("close")
+    # print(c)
+    # print("step")
+    # print(list(temp))
     init=list(temp)
-    
-    if(init==[]):
-        print("Cannot reach by hill climbing method")
-        print("---------------------------")
-        break
     for i in range(9):
         if((i+1)%3!=0):
             print(init[i],end=" ")
         else:
             print(init[i])
             print()
+    # print(init)
     print("---------------------------")
     c=c+1
 print("The end")
